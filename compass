@@ -1,0 +1,54 @@
+电子罗盘
+您可通过此模块访问内置电子罗盘。在使用之前，电子罗盘必须被校准，否则读数可能错误。
+
+警告
+
+校准电子罗盘的过程中将导致程序暂停，直到校准完成。校准会运行一个小游戏—旋转该设备在LED显示屏上画一个圆圈。
+
+函数
+microbit.compass.calibrate()
+开始校准。用户会看到一条滚动指引信息，信息滚动显示后，用户需要旋转该设备以在LED显示屏上画一个圆圈。
+
+microbit.compass.is_calibrated()
+若电子罗盘被成功校准，返回 True ，否则返回 False 。
+
+microbit.compass.clear_calibration()
+取消校准，初始化至未校准状态。
+
+microbit.compass.get_x()
+根据磁力的方向，将 x 轴上的磁力读取为正整数或负整数。
+
+microbit.compass.get_y()
+根据磁力的方向，将 y 轴上的磁力读取为正整数或负整数。(注：原文为x轴，可能是错误，此处暂译为y轴。)
+
+microbit.compass.get_z()
+根据磁力的方向，将 z 轴上的磁力读取为正整数或负整数。(注：原文为x轴，可能是错误，此处暂译为z轴。)
+
+microbit.compass.heading()
+根据上面的读数计算出电子罗盘的方向，该方向表示为0到360之间的整数，指示角度度数；顺时针方向，正北读为0。如果电子罗盘未经校准，则将调用 calibrate。
+
+microbit.compass.get_field_strength()
+返回该设备周围磁场大小的整数指示读数。
+
+示例
+"""
+    compass.py
+    ~~~~~~~~~~
+
+    Creates a compass.
+
+    The user will need to calibrate the compass first. The compass uses the
+    built-in clock images to display the position of the needle.
+
+"""
+from microbit import *
+
+
+# Start calibrating
+compass.calibrate()
+
+# Try to keep the needle pointed in (roughly) the correct direction
+while True:
+    sleep(100)
+    needle = ((15 - compass.heading()) // 30) % 12
+    display.show(Image.ALL_CLOCKS[needle])
